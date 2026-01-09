@@ -592,13 +592,6 @@ grep "macroNews" logs/app.log
 
 本项目采用 MIT 许可证。详情请参阅 [LICENSE](LICENSE) 文件。
 
-## 👥 作者
-
-**Ocean | 湄南河畔**
-
-- GitHub: [@your-username](https://github.com/your-username)
-- Email: your-email@example.com
-
 ## 🙏 致谢
 
 - [CoinGlass](https://www.coinglass.com/) - 数据源
@@ -609,9 +602,7 @@ grep "macroNews" logs/app.log
 ## 📞 联系方式
 
 如有问题或建议，请通过以下方式联系：
-
-- 提交 [Issue](https://github.com/your-username/crazy-monkey-bot/issues)
-- 发送邮件至: your-email@example.com
+- 发送邮件至: nyt1154869180@gmail.com
 
 ## ⚠️ 免责声明
 
