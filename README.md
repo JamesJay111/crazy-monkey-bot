@@ -52,7 +52,7 @@
 - **数据源**: CoinGlass API（经济数据、财经事件、央行动态、新闻文章、快讯）
 - **推送方式**: 分开发送三条消息（中文/英文/韩语各一条）
 - **AI 解读**: 使用 DeepSeek 生成加密货币宏观市场影响解读
-- **详细文档**: [宏观新闻推送实现文档](docs/MACRO_NEWS_IMPLEMENTATION.md)
+- **详细文档**: 宏观新闻推送实现文档（详见代码注释和实现逻辑）
 
 #### 1.2 Twitter 多账户推送
 - **推送频率**: 每 2 小时扫描一次
@@ -290,7 +290,7 @@ npm start
 3. 生成 Access Token 和 Access Token Secret
 4. 配置到对应的环境变量
 
-详细配置指南：参考 [Twitter OAuth 配置文档](docs/TWITTER_OAUTH_CONFIG.md)
+详细配置指南：请参考 Twitter Developer Portal 官方文档配置 OAuth 1.0a
 
 ### Webhook 配置
 
@@ -341,9 +341,10 @@ npm start
 - 若 CoinGlass 无数据 → 明确告知用户"数据不可用"
 - **时间戳格式**: API v4.0 要求使用**毫秒级**时间戳（13位数字）
 
-**详细文档**：
-- [CoinGlass 字段映射文档](docs/COINGLASS_FIELD_MAPPING.md) - 完整的字段映射说明
-- [宏观新闻推送实现文档](docs/MACRO_NEWS_IMPLEMENTATION.md) - 详细的实现说明
+**重要说明**：
+- **时间戳格式**: CoinGlass API v4.0 要求使用**毫秒级**时间戳（13位数字），不是秒级
+- **字段映射**: 所有 API 字段映射逻辑详见 `src/clients/coinglass.client.ts` 中的注释
+- **实现细节**: 宏观新闻推送实现逻辑详见 `src/services/macroNewsWebhookPush.service.ts` 和 `src/services/macroNewsPush.service.ts`
 
 ### DeepSeek API
 
@@ -406,7 +407,11 @@ docker run -d --name macro-news-bot --env-file .env macro-news-bot
 
 ### 详细部署文档
 
-完整的部署指南请参考：[部署文档](docs/DEPLOYMENT.md)
+**部署方式**：
+- **开发模式**: `npm run dev`
+- **生产模式**: `npm run build && npm start`
+- **PM2 部署**: 使用 `pm2 start dist/src/bot/index.js --name macro-news-bot`
+- **Docker 部署**: 创建 Dockerfile 并构建镜像
 
 ## 📁 项目结构
 
@@ -429,12 +434,8 @@ docker run -d --name macro-news-bot --env-file .env macro-news-bot
 │   ├── utils/                                 # 工具函数
 │   ├── db/                                    # 数据库初始化
 │   └── types/                                 # 类型定义
-├── docs/
-│   ├── README.md                              # 文档目录
-│   ├── MACRO_NEWS_IMPLEMENTATION.md          # 宏观新闻实现文档
-│   ├── COINGLASS_FIELD_MAPPING.md            # CoinGlass 字段映射
-│   ├── DEPLOYMENT.md                          # 部署文档
-│   └── GITHUB_DEPLOYMENT.md                  # GitHub 部署指南
+├── docs/                                      # 文档目录（可选）
+│   └── (文档文件可在此目录添加)
 ├── db/
 │   └── init.sql                               # 数据库初始化 SQL
 ├── package.json
@@ -548,7 +549,11 @@ grep "macroNews" logs/app.log
 
 ### 详细故障排查
 
-完整的故障排查指南请参考：[部署文档 - 故障排查](docs/DEPLOYMENT.md#故障排查)
+**常见问题排查**：
+- 检查环境变量是否配置完整
+- 查看日志文件：`tail -f logs/app.log`
+- 检查 API Key 是否正确
+- 验证数据库文件权限
 
 ## 🤝 贡献指南
 
@@ -577,7 +582,11 @@ grep "macroNews" logs/app.log
 
 ### 详细贡献指南
 
-请参考：[GitHub 部署指南](docs/GITHUB_DEPLOYMENT.md)
+**GitHub 部署步骤**：
+1. 初始化 Git 仓库：`git init`
+2. 添加远程仓库：`git remote add origin <your-repo-url>`
+3. 提交代码：`git add . && git commit -m "Initial commit"`
+4. 推送到 GitHub：`git push -u origin main`
 
 ## 📄 许可证
 
